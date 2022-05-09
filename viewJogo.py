@@ -46,10 +46,6 @@ class ActorPlayer(Frame):
       for column in range(5):
         self.board[row][column] = Label(board_frame, image=self.empty[''], bg='#6e5c62', fg="white")
         self.board[row][column].grid(row=row, column=column)
-    self.cur_row = 0
-    self.cur_column = 0
-    self.root.focus_set()
-    self.root.bind('<Key>', self.take_input)
 
     for child in mainframe.winfo_children(): 
       child.grid_configure(padx=10)
@@ -60,6 +56,11 @@ class ActorPlayer(Frame):
     self.controller.resizable(width=False, height=False)
     self.controller.columnconfigure(0, weight=1)
     self.controller.rowconfigure(0, weight=1)
+
+    self.cur_row = 0
+    self.cur_column = 0
+    self.root.focus_set()
+    self.root.bind('<Key>', self.take_input)
 
   def init_board_images(self):
     self.empty = {'': PhotoImage(file='images/empty-tile.png')}

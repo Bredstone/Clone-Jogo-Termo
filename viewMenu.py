@@ -1,18 +1,15 @@
 from tkinter import *
-from tkinter import ttk
-from tkinter.ttk import Style
-from viewJogo import *
 
-class App(object):
-  def __init__(self, master):
-    self.root = master
-    self.root.title("Termo - Main Menu")
-    self.root.resizable(width=False, height=False)
-    self.root.columnconfigure(0, weight=1)
-    self.root.rowconfigure(0, weight=1)
+from viewJogo import ActorPlayer
+
+class ActorMenu(Frame):
+  def __init__(self, parent, controller):
+    Frame.__init__(self, parent)
+    self.controller = controller
+    self.root = self
 
     # Mainframe
-    mainframe = Frame(master, width=700, height=500, bg='#6e5c62', padx=120, pady=45)
+    mainframe = Frame(self.root, width=700, height=500, bg='#6e5c62', padx=120, pady=45)
     mainframe.grid(column=0, row=0, sticky=(N, S, E, W))
     mainframe.columnconfigure(0, weight=1)
     mainframe.rowconfigure(0, weight=1)
@@ -52,13 +49,24 @@ class App(object):
     play_button.grid(row=5, column=0, sticky=S)
     play_button.bind('<Enter>', lambda _: play_button.config(image=self.play_button_image_mouseover))
     play_button.bind('<Leave>', lambda _: play_button.config(image=self.play_button_image))
+    play_button.bind('<Button-1>', self.popup_game)
 
     for child in mainframe.winfo_children(): 
       child.grid_configure(padx=10)
 
-def initGUI(__name__):      
+  def open(self):
+    self.controller.title("Termo - Main Menu")
+    self.controller.geometry('700x500')
+    self.controller.resizable(width=False, height=False)
+    self.controller.columnconfigure(0, weight=1)
+    self.controller.rowconfigure(0, weight=1)
 
-    if __name__ == "__menu__":
-        root = Tk()
-        m = App(root)
-        root.mainloop()
+  def popup_game(self, event):
+    self.controller.show_frame(ActorPlayer)
+
+
+def initGUI(__name__):      
+  if __name__ == "__menu__":
+    root = Tk()
+    ActorMenu(root)
+    root.mainloop()

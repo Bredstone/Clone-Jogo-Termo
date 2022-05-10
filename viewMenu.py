@@ -1,8 +1,8 @@
 from tkinter import *
 
-from viewJogo import ActorPlayer
+from viewJogo import Game
 
-class ActorMenu(Frame):
+class MainMenu(Frame):
   def __init__(self, parent, controller):
     Frame.__init__(self, parent)
     self.controller = controller
@@ -62,11 +62,4 @@ class ActorMenu(Frame):
     self.controller.rowconfigure(0, weight=1)
 
   def popup_game(self, event):
-    self.controller.show_frame(ActorPlayer)
-
-
-def initGUI(__name__):      
-  if __name__ == "__menu__":
-    root = Tk()
-    ActorMenu(root)
-    root.mainloop()
+    self.controller.show_frame(Game)

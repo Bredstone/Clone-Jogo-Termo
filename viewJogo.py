@@ -1,7 +1,7 @@
 from tkinter import *
 import string
 
-class ActorPlayer(Frame):
+class Game(Frame):
   def __init__(self, parent, controller):
     Frame.__init__(self, parent)
     self.controller = controller

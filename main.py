@@ -1,9 +1,9 @@
 from tkinter import *
 
-from viewMenu import ActorMenu
-from viewJogo import ActorPlayer
+from viewMenu import MainMenu
+from viewJogo import Game
 
-class main(Tk):
+class Main(Tk):
   def __init__(self, *args, **kwargs):
     Tk.__init__(self, *args, **kwargs)
 
@@ -13,16 +13,16 @@ class main(Tk):
     container.grid_columnconfigure(0, weight = 1)
   
     self.frames = {} 
-    for F in (ActorMenu, ActorPlayer):
+    for F in (MainMenu, Game):
       frame = F(container, self)
       self.frames[F] = frame
       frame.grid(column=0, row=0, sticky=(N, S, E, W))
-    self.show_frame(ActorMenu)
+    self.show_frame(MainMenu)
   
   def show_frame(self, cont):
     frame = self.frames[cont]
     frame.tkraise()
     frame.open()
 
-app = main()
+app = Main()
 app.mainloop()

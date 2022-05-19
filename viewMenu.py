@@ -1,6 +1,5 @@
 from tkinter import *
 
-from pathResolver import resource_path
 from viewJogo import Game
 
 class MainMenu(Frame):
@@ -18,11 +17,11 @@ class MainMenu(Frame):
     mainframe.grid_propagate(0)
 
     # Título
-    self.title_image = PhotoImage(file=resource_path('./images/title.png'))
+    self.title_image = PhotoImage(file='images/title.png')
     Label(mainframe, image=self.title_image, bg='#6e5c62').grid(row=0, column=0, sticky=(N, E, W))
 
     # Jogador 1
-    self.player1_image = PhotoImage(file=resource_path('./images/player1.png'))
+    self.player1_image = PhotoImage(file='images/player1.png')
     Label(mainframe, image=self.player1_image, bg='#6e5c62').grid(row=1, column=0, sticky=W)
     
     border_entry1 = Frame(mainframe, bg='#312a2c', padx=3, pady=3)
@@ -33,7 +32,7 @@ class MainMenu(Frame):
     Entry(border_entry1, font=('Arial', 12, 'bold'), bd=10, bg='#615458', fg='#FAFAFF', relief=FLAT).grid(row=0, column=0, sticky=(E, W))
 
     # Jogador 2
-    self.player2_image = PhotoImage(file=resource_path('./images/player2.png'))
+    self.player2_image = PhotoImage(file='images/player2.png')
     Label(mainframe, image=self.player2_image, bg='#6e5c62').grid(row=3, column=0, sticky=W, pady='15 0')
     
     border_entry2 = Frame(mainframe, bg='#312a2c', padx=3, pady=3)
@@ -44,8 +43,8 @@ class MainMenu(Frame):
     Entry(border_entry2, font=('Arial', 12, 'bold'), bd=10, bg='#615458', fg='#FAFAFF', relief=FLAT).grid(row=0, column=0, sticky=(E, W))
 
     # Botão Iniciar
-    self.play_button_image = PhotoImage(file=resource_path('./images/play-button.png'))
-    self.play_button_image_mouseover = PhotoImage(file=resource_path('./images/play-button-mouseover.png'))
+    self.play_button_image = PhotoImage(file='images/play-button.png')
+    self.play_button_image_mouseover = PhotoImage(file='images/play-button-mouseover.png')
     play_button = Label(mainframe, image=self.play_button_image, bg='#6e5c62', cursor='hand2')
     play_button.grid(row=5, column=0, sticky=S)
     play_button.bind('<Enter>', lambda _: play_button.config(image=self.play_button_image_mouseover))

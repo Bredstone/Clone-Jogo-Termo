@@ -3,7 +3,7 @@ from tkinter import *
 from viewMenu import MainMenu
 from viewJogo import Game
 
-class Main(Tk):
+class InterfaceJogador(Tk):
   def __init__(self, *args, **kwargs):
     Tk.__init__(self, *args, **kwargs)
 
@@ -24,5 +24,6 @@ class Main(Tk):
     frame.tkraise()
     frame.open()
 
-app = Main()
-app.mainloop()
+if __name__ == '__main__':
+  app = InterfaceJogador()
+  app.mainloop()

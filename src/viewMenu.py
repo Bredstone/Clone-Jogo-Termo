@@ -3,9 +3,9 @@ from tkinter import *
 from viewJogo import Game
 
 class MainMenu(Frame):
-  def __init__(self, parent, controller):
-    Frame.__init__(self, parent)
-    self.controller = controller
+  def __init__(self, parent_container, parent):
+    Frame.__init__(self, parent_container)
+    self.parent = parent
     self.root = self
 
     # Mainframe
@@ -29,7 +29,8 @@ class MainMenu(Frame):
     border_entry1.columnconfigure(0, weight=1)
     border_entry1.rowconfigure(0, weight=1)
     
-    Entry(border_entry1, font=('Arial', 12, 'bold'), bd=10, bg='#615458', fg='#FAFAFF', relief=FLAT).grid(row=0, column=0, sticky=(E, W))
+    self.player1_name = StringVar()
+    Entry(border_entry1, font=('Arial', 12, 'bold'), bd=10, bg='#615458', fg='#FAFAFF', relief=FLAT, textvariable=self.player1_name).grid(row=0, column=0, sticky=(E, W))
 
     # Jogador 2
     self.player2_image = PhotoImage(file='images/player2.png')
@@ -40,7 +41,12 @@ class MainMenu(Frame):
     border_entry2.columnconfigure(0, weight=1)
     border_entry2.rowconfigure(0, weight=1)
     
-    Entry(border_entry2, font=('Arial', 12, 'bold'), bd=10, bg='#615458', fg='#FAFAFF', relief=FLAT).grid(row=0, column=0, sticky=(E, W))
+    self.player2_name = StringVar()
+    Entry(border_entry2, font=('Arial', 12, 'bold'), bd=10, bg='#615458', fg='#FAFAFF', relief=FLAT, textvariable=self.player2_name).grid(row=0, column=0, sticky=(E, W))
+
+    # Warning
+    self.names_warning_image = PhotoImage(file='images/empty-names-warning.png')
+    self.names_warning = Label(mainframe, image=self.names_warning_image, bg='#6e5c62')
 
     # Botão Iniciar
     self.play_button_image = PhotoImage(file='images/play-button.png')
@@ -49,17 +55,27 @@ class MainMenu(Frame):
     play_button.grid(row=5, column=0, sticky=S)
     play_button.bind('<Enter>', lambda _: play_button.config(image=self.play_button_image_mouseover))
     play_button.bind('<Leave>', lambda _: play_button.config(image=self.play_button_image))
-    play_button.bind('<Button-1>', self.popup_game)
+    play_button.bind('<Button-1>', self.popupGame)
+    
+    self.parent.bind('<Return>', self.popupGame)
 
     for child in mainframe.winfo_children(): 
       child.grid_configure(padx=10)
 
   def open(self):
-    self.controller.title("Termo - Main Menu")
-    self.controller.geometry('700x500')
-    self.controller.resizable(width=False, height=False)
-    self.controller.columnconfigure(0, weight=1)
-    self.controller.rowconfigure(0, weight=1)
+    self.parent.title("Termo - Main Menu")
+    self.parent.geometry('700x500')
+    self.parent.resizable(width=False, height=False)
+    self.parent.columnconfigure(0, weight=1)
+    self.parent.rowconfigure(0, weight=1)
+    
+    self.names_warning.grid_forget()
 
-  def popup_game(self, event):
-    self.controller.show_frame(Game)
+  def popupGame(self, event):
+    if not self.player1_name.get() or not self.player2_name.get():
+      self.names_warning.place(relx=0.5, y=95, anchor=CENTER)
+      self.names_warning.after(1500, lambda: self.names_warning.place_forget())
+    else:
+      self.parent.unbind('<Return>')
+      self.parent.game.tkraise()
+      self.parent.game.open(self.player1_name.get(), self.player2_name.get())

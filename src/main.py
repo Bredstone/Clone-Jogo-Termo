@@ -11,18 +11,14 @@ class InterfaceJogador(Tk):
     container.pack(side = "top", fill = "both", expand = True)
     container.grid_rowconfigure(0, weight = 1)
     container.grid_columnconfigure(0, weight = 1)
-  
-    self.frames = {} 
-    for F in (MainMenu, Game):
-      frame = F(container, self)
-      self.frames[F] = frame
-      frame.grid(column=0, row=0, sticky=(N, S, E, W))
-    self.show_frame(MainMenu)
-  
-  def show_frame(self, cont):
-    frame = self.frames[cont]
-    frame.tkraise()
-    frame.open()
+
+    self.game = Game(container, self)
+    self.game.grid(column=0, row=0, sticky=(N, S, E, W))
+
+    self.main_menu = MainMenu(container, self)
+    self.main_menu.grid(column=0, row=0, sticky=(N, S, E, W))
+    self.main_menu.tkraise()
+    self.main_menu.open()
 
 if __name__ == '__main__':
   app = InterfaceJogador()

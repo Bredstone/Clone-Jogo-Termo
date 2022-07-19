@@ -148,6 +148,11 @@ class Game(Frame):
   def notifyWinner(self, player, word, rightWord=True):
     self.showNotification(3 if player == 2 else 2, False)
 
+    self.player1_name.config(fg='#FAFAFF')
+    self.player1_score.config(fg='#FAFAFF')
+    self.player2_name.config(fg='#FAFAFF')
+    self.player2_score.config(fg='#FAFAFF')
+
     if player == 0 or player == 2:
       self.player1_name.config(fg='#3AA394')
       self.player1_score.config(fg='#3AA394')

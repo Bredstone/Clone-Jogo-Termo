@@ -2,6 +2,7 @@ import random, unidecode
 
 from jogador import Jogador
 from bancoPalavras import BancoPalavras
+from pathResolver import resource_path
 
 class Termo():
   def __init__(self, player1_name, player2_name, interface):
@@ -13,7 +14,7 @@ class Termo():
     self.entry_list = []
     self.hit_list = []
     self.interface = interface
-    self.word_base = BancoPalavras('./brazilian')
+    self.word_base = BancoPalavras(resource_path('./brazilian'))
 
   def selectRandomPlayer(self):
     return random.choice(self.players_list)

@@ -2,6 +2,7 @@ from tkinter import *
 import string
 
 from controller import Termo
+from pathResolver import resource_path
 
 class Game(Frame):
   def __init__(self, parent_container, parent):
@@ -17,7 +18,7 @@ class Game(Frame):
     mainframe.grid_propagate(0)
 
     # Título
-    self.title_image = PhotoImage(file='images/title.png')
+    self.title_image = PhotoImage(file=resource_path('images/title.png'))
     Label(mainframe, image=self.title_image, bg='#6e5c62').grid(row=0, column=0, sticky=(N, E, W))
 
     # Jogador 1
@@ -44,19 +45,19 @@ class Game(Frame):
     self.warnings = []
 
     # Palavras devem ter 5 letras
-    self.five_letters_warning_image = PhotoImage(file='images/five-letters-warning.png')
+    self.five_letters_warning_image = PhotoImage(file=resource_path('images/five-letters-warning.png'))
     self.warnings.append(Label(mainframe, image=self.five_letters_warning_image, bg='#6e5c62'))
 
     # Palavra não reconhecida
-    self.invalid_word_warning_image = PhotoImage(file='images/invalid-word-warning.png')
+    self.invalid_word_warning_image = PhotoImage(file=resource_path('images/invalid-word-warning.png'))
     self.warnings.append(Label(mainframe, image=self.invalid_word_warning_image, bg='#6e5c62'))
 
     # Palavra certa
-    self.correct_word_warning_image = PhotoImage(file='images/correct-word-warning.png')
+    self.correct_word_warning_image = PhotoImage(file=resource_path('images/correct-word-warning.png'))
     self.warnings.append(Label(mainframe, image=self.correct_word_warning_image, bg='#6e5c62'))
 
     # Empate
-    self.draw_warning_image = PhotoImage(file='images/draw-warning.png')
+    self.draw_warning_image = PhotoImage(file=resource_path('images/draw-warning.png'))
     self.warnings.append(Label(mainframe, image=self.draw_warning_image, bg='#6e5c62'))
 
     # Tabuleiro
@@ -81,7 +82,7 @@ class Game(Frame):
 
     self.end_message = Label(
       mainframe, 
-      text='Pressione <Enter> para jogar novamente ou <Esc> para sair.', 
+      text='Pressione qualquer tecla para jogar novamente.', 
       font=('Fira Code', 12, 'bold'), 
       bg='#6e5c62', 
       fg="#FAFAFF"
@@ -107,21 +108,21 @@ class Game(Frame):
 
   def initBoardImages(self):
     self.empty = {
-      '': PhotoImage(file='images/empty-tile/empty-tile.png'), 
-      'selected-row': PhotoImage(file='images/empty-tile/empty-tile-selected-row.png'),
-      'selected-tile': PhotoImage(file='images/empty-tile/empty-tile-selected-tile.png'),
+      '': PhotoImage(file=resource_path('images/empty-tile/empty-tile.png')), 
+      'selected-row': PhotoImage(file=resource_path('images/empty-tile/empty-tile-selected-row.png')),
+      'selected-tile': PhotoImage(file=resource_path('images/empty-tile/empty-tile-selected-tile.png')),
       }
     self.right = dict()
     self.semi_correct = dict()
     self.wrong = dict()
 
     for letter in string.ascii_lowercase:
-      self.empty[letter] = PhotoImage(file=f'images/empty-tile/empty-tile-{letter}.png')
+      self.empty[letter] = PhotoImage(file=resource_path(f'images/empty-tile/empty-tile-{letter}.png'))
 
     for letter in string.ascii_lowercase + 'áéíóúâêôãõç':
-      self.right[letter] = PhotoImage(file=f'images/right-tile/right-tile-{letter}.png')
-      self.semi_correct[letter] = PhotoImage(file=f'images/semi-correct-tile/semi-correct-{letter}.png')
-      self.wrong[letter] = PhotoImage(file=f'images/wrong-tile/wrong-tile-{letter}.png')
+      self.right[letter] = PhotoImage(file=resource_path(f'images/right-tile/right-tile-{letter}.png'))
+      self.semi_correct[letter] = PhotoImage(file=resource_path(f'images/semi-correct-tile/semi-correct-{letter}.png'))
+      self.wrong[letter] = PhotoImage(file=resource_path(f'images/wrong-tile/wrong-tile-{letter}.png'))
 
   def refreshScore(self, scorePlayer1, scorePlayer2):
     self.player1_score.config(text=f'{scorePlayer1:03d}')
@@ -168,19 +169,16 @@ class Game(Frame):
       if self.cur_row < 6:
         [tile.config(image=self.empty['']) for tile in self.board[self.cur_row]]
     
-    self.root.unbind('<Key>')
-    self.root.bind('<Key>', self.endGame)
+    self.unbind('<Key>')
+    self.bind('<Key>', self.resetGame)
 
     self.end_message_word.config(text=f'A palavra correta era "{word.upper()}"')
     self.end_message_word.place(relx=0.5, rely=0.95, anchor=CENTER)
     self.end_message.place(relx=0.5, rely=1, anchor=CENTER)
 
-  def endGame(self, keyPress):
-    if keyPress.keysym == 'Return':
-      self.resetBoard()
-      self.controller.novaPartida()
-    elif keyPress.keysym == 'Escape':
-      self.parent.destroy()
+  def resetGame(self, keyPress):
+    self.resetBoard()
+    self.controller.novaPartida()
 
   def takeInput(self, keyPress):
     if keyPress.char.lower() in list(string.ascii_lowercase) and self.cur_column < 5:
@@ -215,9 +213,9 @@ class Game(Frame):
     self.end_message.place_forget()
     self.end_message_word.place_forget()
 
-    self.root.focus_set()
-    self.root.unbind('<Key>')
-    self.root.bind('<Key>', self.takeInput)
+    self.focus_set()
+    self.unbind('<Key>')
+    self.bind('<Key>', self.takeInput)
 
     self.cur_row = 0
     self.cur_column = 0

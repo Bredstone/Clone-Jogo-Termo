@@ -6,8 +6,8 @@ class BancoPalavras():
       self.word_list = [word.strip().lower() for word in f.readlines()]
 
   def getRandomWord(self, wordLen):
-    filtered_word_list = [word for word in self.word_list if len(word) == wordLen]
-    return random.choice(filtered_word_list)
+    filtered_list = [word for word in self.word_list if len(word) == wordLen]
+    return random.choice(filtered_list)
 
   def verifyWord(self, word):
     word_dict = dict([(unidecode.unidecode(word), word) for word in self.word_list])

@@ -55,32 +55,36 @@ class Termo():
     self.interface.setCurPlayer(self.players_list.index(self.cur_player))
 
   def verifyEntry(self, entry):
+    self.entry = entry
     word = self.word_base.verifyWord(entry)
 
     if not word:
       self.interface.showNotification(1)
-      return
-
-    self.hit_list = self.verifyLetters(entry)
-    self.interface.refreshBoard(self.hit_list, word)
-
-    if self.hit_list == [10, 10, 10, 10, 10]:
-      self.interface.notifyWinner(self.players_list.index(self.cur_player), self.random_word)
-      return
-
-    self.cur_player.setScore(self.calculateScore(self.hit_list))
-    self.interface.refreshScore(self.players_list[0].getScore(), self.players_list[1].getScore())
-
-    if self.turn_counter == 6:
-      if self.players_list[0].getScore() > self.players_list[1].getScore():
-        player = 0
-      elif self.players_list[0].getScore() < self.players_list[1].getScore():
-        player = 1
-      else:
-        player = 2
-
-      self.interface.notifyWinner(player, self.random_word, False)
     else:
-      self.nextTurn()
-    
+      self.entry_list.append(self.entry)
+      self.hit_list = self.verifyLetters(entry)
+      self.interface.refreshBoard(self.hit_list, word)
+
+      if self.hit_list == [10, 10, 10, 10, 10]:
+        self.interface.notifyWinner(self.players_list.index(self.cur_player), self.random_word)
+      else:
+        score = self.calculateScore(self.hit_list)
+        self.cur_player.setScore(score)
+        self.interface.refreshScore(self.players_list[0].getScore(), self.players_list[1].getScore())
+
+        if self.turn_counter == 6:
+          player1_score = self.players_list[0].getScore()
+          player2_score = self.players_list[1].getScore()
+
+          if player1_score > player2_score:
+            player = 0
+          elif player1_score < player2_score:
+            player = 1
+          else:
+            player = 2
+
+          self.interface.notifyWinner(player, self.random_word, False)
+        else:
+          self.nextTurn()
+      
     

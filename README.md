@@ -5,3 +5,16 @@ Projeto clone do jogo Termo, para disciplina de Engenharia de Software I, na Uni
 Software desenvolvido em Python, utilizando a biblioteca Tkinter.
 
 Jogo orginal disponível em https://term.ooo/ 
+
+## Execução
+Para executar o programa
+
+No Windows, utilize:
+```
+./Termo.exe
+```
+
+Em Linux:
+```
+./Termo
+```
